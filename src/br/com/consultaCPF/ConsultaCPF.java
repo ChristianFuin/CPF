@@ -23,6 +23,7 @@ public class ConsultaCPF {
 				while (linha != null) {
 					linha = leitura.readLine();
 					cpfs.add(linha);
+					leitura.close();
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
