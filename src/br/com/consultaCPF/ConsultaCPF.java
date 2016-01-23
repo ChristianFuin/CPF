@@ -12,7 +12,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 public class ConsultaCPF {
-	
+
 	public static void main(String[] args) {
 		List<String> cpfs = new ArrayList<String>();
 		try {
@@ -23,8 +23,8 @@ public class ConsultaCPF {
 				while (linha != null) {
 					linha = leitura.readLine();
 					cpfs.add(linha);
-					leitura.close();
 				}
+				leitura.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -45,7 +45,7 @@ public class ConsultaCPF {
 		StringBuffer invalidoCPF = new StringBuffer("CPFS ERRADOS:" + "\r\n");
 		int[] numeroCPF = new int[11];
 		int validos = 0, invalidos = 0, total = 0;
-		
+
 		for (String cpf : cpfs) {
 			String numero = cpf;
 			if (cpf != null) {
@@ -57,7 +57,7 @@ public class ConsultaCPF {
 				boolean valida = validaCPF(numeroCPF);
 				if (valida == true) {
 					validos++;
-				} else {			
+				} else {
 					invalidoCPF.append(numero).append("\r\n");
 					invalidos++;
 				}
@@ -65,9 +65,9 @@ public class ConsultaCPF {
 				write(invalidoCPF.toString());
 			}
 		}
-		
-		imprimir("RESULTADO: " + "\n" + validos + " CPFS VÁLIDOS!" + "\n" + invalidos + " CPFS Inválidos!"
-				+"\n" + total + " CPFS Verificados!!!"	);
+
+		imprimir("RESULTADO: " + "\n" + validos + " CPFS VÁLIDOS!" + "\n" + invalidos + " CPFS Inválidos!" + "\n"
+				+ total + " CPFS Verificados!!!");
 		return true;
 	}
 
@@ -107,13 +107,13 @@ public class ConsultaCPF {
 		}
 		return digito;
 	}
-	
-	public static void imprimir(String mensagem){
-		JOptionPane.showMessageDialog(null,mensagem);
+
+	public static void imprimir(String mensagem) {
+		JOptionPane.showMessageDialog(null, mensagem);
 	}
-	
-	public static void write(String mensagem){
-		try{
+
+	public static void write(String mensagem) {
+		try {
 			FileWriter arq = new FileWriter("log.txt");
 			PrintWriter escreve = new PrintWriter(arq);
 			escreve.printf(mensagem);
