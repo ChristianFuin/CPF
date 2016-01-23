@@ -1,18 +1,18 @@
 package br.com.consultaCPF;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Scanner;
+
+import javax.swing.JOptionPane;
 
 public class ConsultaCPF {
-
+	
 	public static void main(String[] args) {
 		List<String> cpfs = new ArrayList<String>();
 		try {
@@ -33,7 +33,7 @@ public class ConsultaCPF {
 		} finally {
 			boolean teste = verificaValidade(cpfs);
 			if (teste == true) {
-				System.out.println("Verificação Encerrada!!");
+				imprimir("Verificação Encerrada!!");
 				System.exit(0);
 			}
 		}
@@ -41,9 +41,10 @@ public class ConsultaCPF {
 	}
 
 	public static Boolean verificaValidade(List<String> cpfs) {
+		StringBuffer invalidoCPF = new StringBuffer("CPFS ERRADOS:" + "\r\n");
 		int[] numeroCPF = new int[11];
 		int validos = 0, invalidos = 0, total = 0;
-
+		
 		for (String cpf : cpfs) {
 			String numero = cpf;
 			if (cpf != null) {
@@ -55,15 +56,17 @@ public class ConsultaCPF {
 				boolean valida = validaCPF(numeroCPF);
 				if (valida == true) {
 					validos++;
-				} else {
+				} else {			
+					invalidoCPF.append(numero).append("\r\n");
 					invalidos++;
 				}
 				total++;
+				write(invalidoCPF.toString());
 			}
 		}
-		System.out.println(validos + " CPFS VÁLIDOS!");
-		System.out.println(invalidos + " CPFS Inválidos!");
-		System.out.println(total + " CPFS Verificados!!!");
+		
+		imprimir("RESULTADO: " + "\n" + validos + " CPFS VÁLIDOS!" + "\n" + invalidos + " CPFS Inválidos!"
+				+"\n" + total + " CPFS Verificados!!!"	);
 		return true;
 	}
 
@@ -102,5 +105,21 @@ public class ConsultaCPF {
 			digito = 11 - digito;
 		}
 		return digito;
+	}
+	
+	public static void imprimir(String mensagem){
+		JOptionPane.showMessageDialog(null,mensagem);
+	}
+	
+	public static void write(String mensagem){
+		try{
+			FileWriter arq = new FileWriter("log.txt");
+			PrintWriter escreve = new PrintWriter(arq);
+			escreve.printf(mensagem);
+			arq.close();
+		} catch (IOException e) {
+			imprimir("erro ao criar arquivo log.txt");
+			e.printStackTrace();
+		}
 	}
 }
